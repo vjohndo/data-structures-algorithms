@@ -3,6 +3,9 @@ from markupsafe import Markup
 
 app = Flask(__name__)
 
+app.config['SECRET']
+
+
 # This posts will be a list of dictionaries, representing blog posts
 posts = [
     {
