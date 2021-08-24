@@ -1,7 +1,7 @@
 """
 Understanding python's implementation of dictionaries by:
 > Confirming that contains for list is O(n)
-> Confirming that contains for dictionaries is O(n)
+> Confirming that contains for dictionaries is O(1)
 > We will learn more about dictionary implementations later in the book
 
 Lessons Learnt:
