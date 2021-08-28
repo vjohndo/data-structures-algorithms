@@ -13,7 +13,8 @@ def infix_to_postfix(infix_expr):
     # "/*" --> always goes before everything
     # ")" --> None, doesn't matter, if this is coming, it'll engage it's own logic
 
-    prec = {"/" : 3,
+    prec = {"**": 4,
+            "/" : 3,
             "*" : 3,
             "+" : 2,
             "-" : 2,
@@ -24,10 +25,10 @@ def infix_to_postfix(infix_expr):
     # Let's define a stack that we can put operands into
     op_stack = Stack()
     
-    # We'll also need a finally list to join together after all of this
+    # We'll also need a final list to join together after all of this
     postfix_list = []
 
-    # Let's take the string and split it, note we are using split because we don't want to capture spaces
+    # Let's take the string and split it, note we are using split because we don't want to capture spaces if we use list(infix_expr)
     token_list = infix_expr.split()
 
     # now we'll go through each token in the list
@@ -38,13 +39,13 @@ def infix_to_postfix(infix_expr):
         elif token == "(" :
             op_stack.push(token)
         elif token == ")" :
-            # Need to keep popping until you popped the "(" i.e. you've gotten out all the , make sure you append operands
+            # Need to keep popping until you popped the "(" i.e. you've gotten out all the stored up operands , make sure you append operands
             top_token = op_stack.pop()
             while top_token != "(":
                 postfix_list.append(top_token)
                 top_token = op_stack.pop()
         else:
-            # pop out all operands, will need to peek at it's precedence level BUt what if it's there's nothing in the stack
+            # pop out all operands, will need to peek at it's precedence level but what if it's there's nothing in the stack
             # i.e. this is the first time you're calling it ... is_empty.. so if it's not empty you can keep popping
             while (not op_stack.is_empty()) and (prec[op_stack.peek()] >= prec[token]):
                 postfix_list.append(op_stack.pop())
@@ -60,3 +61,4 @@ def infix_to_postfix(infix_expr):
 
 print(infix_to_postfix("A * B + C * D"))
 print(infix_to_postfix("( A + B ) * C - ( D - E ) * ( F + G )"))
+print(infix_to_postfix("5 * 3 ** ( 4 - 2 )"))
