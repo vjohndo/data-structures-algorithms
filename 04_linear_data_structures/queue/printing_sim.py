@@ -17,7 +17,7 @@ import random
 
 class Printer():
     """
-    will need to track if it's working on atask
+    will need to track if it's working on a task
     how much time needed to complete the task based on pages
     a tick decrements the internal timer
     """
