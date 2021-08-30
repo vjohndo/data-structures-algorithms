@@ -5,6 +5,10 @@ Lessons learnt:
 - much like we have "=" and "is", we may have something like "!=" and "is not"
 - "=" "!=" is an equality test while "is" and "is not" is an identity check... ARE THEY THE SAME OBJECT
 
+-  # express the value error as the veriable ve and print it...
+    except ValueError as ve:
+        print(ve)
+
 Need to make a linked list:
 
 To make a linked list we build a node:
@@ -14,6 +18,9 @@ To make a linked list we build a node:
 
 
 """
+from os import curdir
+
+
 class Node: 
     def __init__(self, node_data):
         self._data = node_data
@@ -53,6 +60,7 @@ class UnorderedList:
 
     def __init__(self):
         self.head = None
+        self.tail = None
 
     def is_empty(self):
         # if the head doesn't point to anything, it must be empty
@@ -66,6 +74,9 @@ class UnorderedList:
         # first item added will be the last item in a linked list 
         temp = Node(item)
         temp.set_next(self.head)
+        ### From the future, let's add in a tail... will break on POP. and REMOVE. 
+        if temp.next is None:
+            self.tail = temp
         self.head = temp
 
         # if you reverse the order, i.e. assign the head first, reference to the rest of the nodes will be lost forever.
@@ -98,6 +109,7 @@ class UnorderedList:
         # However if we get the end of the list "None" that means the item isn't there
         return False
 
+    # need to udpate to work with tail
     def remove(self, item):
         current = self.head
         # we can't go backwards in a linked list so we'll bring a reference to the previous node with us
@@ -123,38 +135,163 @@ class UnorderedList:
             # say if we are removing the last item, it would work as current.next is pointint to None.
             previous.next = current.next
 
-my_list = UnorderedList()
+    """ 
+    append, insert, index, pop. 
 
-my_list.add(31)
-my_list.add(77)
-my_list.add(17)
-my_list.add(93)
-my_list.add(26)
-my_list.add(54)
+    All need to account for a change in the 
+    """
+    def append(self,item):
+        temp = Node(item)
+        current = self.tail
+        current.next = temp
+        self.tail = temp
+        
+        # current = self.head
+        # temp = Node(item)
+        # # if it so happens that linked list is empty, the head will point to none
+        # # otherwise traverse to the end of the linked list until we're pointing to none
+        # while current.next is not None:
+        #     current = current.next
+        
+        # current.next = temp
 
-print(my_list.size())
-print(my_list.search(93))
-print(my_list.search(100))
+    # need to udpate to work with tail
+    def insert(self,index,item):
+        current_node = self.head
+        previous_node = None
+        new_node = Node(item)
+        count = 0
 
-my_list.add(100)
-print(my_list.search(100))
-print(my_list.size())
+        # Keep traversing until the count == index or we've reached a pointer that points to None (start / end)
+        while current_node is not None:
+            # Note that we don't include count == index in the while loop conditions as we need to keep the state of previous and current
+            # I.e. don't want to complete the inchworming upon landing on the correct index
+            if count == index:
+                break
+            previous_node = current_node
+            current_node = current_node.next
+            count += 1
+        
+        # The above while loop breaks upon reaching the index, or being at a none node... let's account for these scenarios
+        if previous_node is None:
+            # That means the head is pointing that the item to swap in place
+            # do a hot swap.
+            new_node.next = current_node
+            self.head = new_node
+        elif current_node is None:
+            # That means we've traversed to the send of the list and the index is not here
+            # Following how lists work we will add it now
+            previous_node.next = new_node
+        else:
+            # Should be all good to make a swap
+            new_node.next = current_node
+            previous_node.next = new_node
 
-my_list.remove(54)
-print(my_list.size())
-my_list.remove(93)
-print(my_list.size())
-my_list.remove(31)
-print(my_list.size())
-print(my_list.search(93))
+    def index(self,index_expression):
+        current_node = self.head
+        count = 0
 
-try:
-    my_list.remove(27)
-except ValueError as ve:
-    print(ve)
+        while current_node is not None:
+            if current_node.data == index_expression:
+                return count
+            count += 1
+            current_node = current_node.next
+
+        raise ValueError('{} not in index'.format(index_expression))
+
+    # need to udpate to work with tail
+    def pop(self,index = None):
+        
+        current_node = self.head
+        previous_node = None
+
+        if index is None:
+            while current_node.next is not None:
+                previous_node = current_node
+                current_node = current_node.next
+
+            if current_node is None and previous_node is None:
+                raise IndexError(' pop from empty list')
+            elif previous_node is None:
+                # case if you're at the head
+                self.head = current_node.next
+            else:
+                previous_node.next = None
+
+            
+        else:
+            count = 0
+            while current_node is not None:
+                if count == index:
+                    break
+                previous_node = current_node
+                current_node = current_node.next
+
+            if previous_node is None and current_node is None:
+                raise IndexError('pop from empty list')
+            elif previous_node is None:
+                # That means you gotta reassing the head
+                self.head = current_node.next
+            elif current_node is None:
+                raise IndexError('{} not an index in list'.format(index))
+            else:
+                previous_node.next = current_node.next
 
 
 
+    def checkList(self):
+        current_node = self.head
 
+        while current_node is not None:
+            print(current_node.data)
+            current_node = current_node.next
+        
 
+def check():
+    my_list = UnorderedList()
 
+    my_list.add(31)
+    my_list.append(32)
+    my_list.checkList()
+    # try:
+    #     print('index',my_list.index('BANG'))
+
+    # # express the value error as the veriable ve and print it
+    # except ValueError as ve:
+    #     print(ve)
+
+check()
+
+    
+
+def main():
+    my_list = UnorderedList()
+
+    my_list.add(31)
+    my_list.add(77)
+    my_list.add(17)
+    my_list.add(93)
+    my_list.add(26)
+    my_list.add(54)
+
+    print(my_list.size())
+    print(my_list.search(93))
+    print(my_list.search(100))
+
+    my_list.add(100)
+    print(my_list.search(100))
+    print(my_list.size())
+
+    my_list.remove(54)
+    print(my_list.size())
+    my_list.remove(93)
+    print(my_list.size())
+    my_list.remove(31)
+    print(my_list.size())
+    print(my_list.search(93))
+
+    try:
+        my_list.remove(27)
+    except ValueError as ve:
+        print(ve)
+# main()
