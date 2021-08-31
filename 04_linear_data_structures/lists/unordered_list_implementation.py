@@ -15,11 +15,8 @@ To make a linked list we build a node:
     > comprises of datafield
     > comprises of reference
 
-
-
 """
 from os import curdir
-
 
 class Node: 
     def __init__(self, node_data):
@@ -109,7 +106,6 @@ class UnorderedList:
         # However if we get the end of the list "None" that means the item isn't there
         return False
 
-    # need to udpate to work with tail
     def remove(self, item):
         current = self.head
         # we can't go backwards in a linked list so we'll bring a reference to the previous node with us
@@ -134,6 +130,8 @@ class UnorderedList:
             # clause for any other intermediate items
             # say if we are removing the last item, it would work as current.next is pointint to None.
             previous.next = current.next
+            if current.next is None:
+                self.tail = previous
 
     """ 
     append, insert, index, pop. 
@@ -142,20 +140,23 @@ class UnorderedList:
     """
     def append(self,item):
         temp = Node(item)
-        current = self.tail
-        current.next = temp
-        self.tail = temp
-        
-        # current = self.head
-        # temp = Node(item)
-        # # if it so happens that linked list is empty, the head will point to none
-        # # otherwise traverse to the end of the linked list until we're pointing to none
-        # while current.next is not None:
-        #     current = current.next
-        
-        # current.next = temp
+        if self.tail is not None:
+            current = self.tail
+            current.next = temp
+            self.tail = temp
+        else:
+            self.head = temp
 
-    # need to udpate to work with tail
+        ## Old code before we implemented a tail.
+            # current = self.head
+            # temp = Node(item)
+            # # if it so happens that linked list is empty, the head will point to none
+            # # otherwise traverse to the end of the linked list until we're pointing to none
+            # while current.next is not None:
+            #     current = current.next
+            
+            # current.next = temp
+
     def insert(self,index,item):
         current_node = self.head
         previous_node = None
@@ -174,14 +175,16 @@ class UnorderedList:
         
         # The above while loop breaks upon reaching the index, or being at a none node... let's account for these scenarios
         if previous_node is None:
-            # That means the head is pointing that the item to swap in place
-            # do a hot swap.
+            # That means we need to insert and point at the inserted item as a new head
+            if new_node.next is self.tail:
+                self.tail = new_node
             new_node.next = current_node
             self.head = new_node
         elif current_node is None:
             # That means we've traversed to the send of the list and the index is not here
             # Following how lists work we will add it now
             previous_node.next = new_node
+            self.tail = new_node
         else:
             # Should be all good to make a swap
             new_node.next = current_node
@@ -199,7 +202,6 @@ class UnorderedList:
 
         raise ValueError('{} not in index'.format(index_expression))
 
-    # need to udpate to work with tail
     def pop(self,index = None):
         
         current_node = self.head
@@ -217,6 +219,8 @@ class UnorderedList:
                 self.head = current_node.next
             else:
                 previous_node.next = None
+                # AND the new tail is updated
+                self.tail = previous_node
 
             
         else:
@@ -226,18 +230,21 @@ class UnorderedList:
                     break
                 previous_node = current_node
                 current_node = current_node.next
+                count += 1
 
             if previous_node is None and current_node is None:
                 raise IndexError('pop from empty list')
             elif previous_node is None:
-                # That means you gotta reassing the head
+                # That means you gotta reassign the head
                 self.head = current_node.next
+                if current_node.next is None:
+                    self.tail = None
             elif current_node is None:
                 raise IndexError('{} not an index in list'.format(index))
             else:
                 previous_node.next = current_node.next
-
-
+                if previous_node.next is None:
+                    self.tail = previous_node
 
     def checkList(self):
         current_node = self.head
@@ -250,8 +257,11 @@ class UnorderedList:
 def check():
     my_list = UnorderedList()
 
-    my_list.add(31)
-    my_list.append(32)
+    my_list.insert(0,'HEAD')
+    my_list.pop(0)
+    my_list.append('APPENDED TAIL')
+    my_list.remove('APPENDED TAIL')
+    my_list.append('APPENDED TAIL')
     my_list.checkList()
     # try:
     #     print('index',my_list.index('BANG'))
@@ -261,8 +271,6 @@ def check():
     #     print(ve)
 
 check()
-
-    
 
 def main():
     my_list = UnorderedList()
