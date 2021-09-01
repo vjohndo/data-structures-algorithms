@@ -70,3 +70,58 @@ class OrderedList:
         # Otherwise you're somewhere in the middle of the list and okay to remove node
         else:
             previous_node.next = current_node.next
+    
+    # This will work the same as a linked list but at a certain point we can know item is not in list
+    # Search returns whether the item is in the list
+    def search(self,item):
+        current_node = self.head
+
+        while current_node is not None:
+            if current_node.data == item:
+                return True
+            elif current_node.data > item:
+                return False
+
+            current_node = current_node.next
+            
+        return False
+
+    # Will need to go to the right spot to add node
+    # It will be the case when current node it none or value greater than existing
+    def add(self,item):
+        current_node = self.head
+        previous_node = None
+        new_node = Node(item)
+
+        # Stop traversing if current node is none or we've found a smaller element.
+        while current_node is not None and current_node.data < item:
+            previous_node = current_node
+            current_node = current_node.next
+        
+        # We will either be at the start on empty, at end with current_node.data < item, or in the middle somewhere:
+        # we will always be placing our node before the "current node"
+        if previous_node is None:
+            # Must be the case that we need to our node before the first node
+            new_node.next = self.head
+            self.head = new_node
+        
+        else:
+            # Must be somewhere in the middle in which case point the new node to current
+            # Otherwise must be at the end of the list... also works with below code to point to nothing.
+            new_node.next = current_node
+            previous_node.next = new_node
+
+def main():
+    my_list = OrderedList()
+    my_list.add(31)
+    my_list.add(77)
+    my_list.add(17)
+    my_list.add(93)
+    my_list.add(26)
+    my_list.add(54)
+
+    print(my_list.size())
+    print(my_list.search(93))
+    print(my_list.search(100))
+
+main()

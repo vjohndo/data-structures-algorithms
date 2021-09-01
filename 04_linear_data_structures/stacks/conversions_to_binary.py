@@ -26,7 +26,7 @@ def divide_by_2(decimal_num):
 
     return bin_string
 
-# print(divide_by_2(42))
+print(divide_by_2(17))
 # print(divide_by_2(31))
 
 """
@@ -53,4 +53,4 @@ def base_converter(decimal_num,base):
 
     return base_string
         
-print(base_converter(256, 16))
+# print(base_converter(256, 16))
