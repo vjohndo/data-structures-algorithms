@@ -1,3 +1,7 @@
+"""
+Will need to brew install python-tk
+"""
+
 # [0] import the turtle module.. don't call this module turtle otherwise you'll import it self
 import turtle
 
