@@ -9,5 +9,7 @@
 * An assignment statement is something like:
     * my_variable = 120.5
 
-* my_variable is the identifier
+* my_variable is the *identifier*
 * 120.5 is the object associated, in this case, a floating point 
+
+## Identifier & Memory Address
