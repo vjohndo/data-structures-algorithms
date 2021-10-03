@@ -17,7 +17,6 @@ def gap_insertion_sort(a_list, start, gap):
     a_list[current_position] = insertion_value
 
 def shell_sort(a_list):
-
     # We are going to keep running multiple passes of shells
     # This sublist count will be based on gap = length/2 but will keep increasing to gap = length4 etc.
     # Eventually this will progress to a gap size of 1 where we would be effectively doing pure insertion sort
