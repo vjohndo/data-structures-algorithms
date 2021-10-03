@@ -24,6 +24,8 @@ print(a_list)
 def selection_sort2(a_list):
     """Implementation moves the largest number to the end of the list"""
     # Consider which has better performance?
+    # This one is probably worse as you need to keep making exchanges near the front which 'ripple' through to the end
+    # The front of list implementation will have a reduced ripple area
 
     # Iterating through the list backwards, 
     for i in range(len(a_list) - 1, 0, -1):
