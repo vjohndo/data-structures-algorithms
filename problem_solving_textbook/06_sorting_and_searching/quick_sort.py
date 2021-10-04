@@ -1,6 +1,34 @@
+def medianOfThree(a_list, first, last):
+
+    # Assume that the first value is already the median
+    first_value = a_list[first]
+    middle_value = a_list[len(a_list)//2]
+    last_value = a_list[last]
+
+    # stil want to check it is stable
+    if (middle_value > first_value and middle_value <= last_value) or (middle_value < first_value and middle_value >= last_value):
+        a_list[len(a_list)//2], a_list[first] = a_list[first], a_list[len(a_list)//2]
+    elif (last_value > first_value and last_value <= middle_value) or (last_value < first_value and last_value >= middle_value):
+        a_list[last], a_list[first] = a_list[first], a_list[last]
+
+a = [1,2,3]
+b = [3,2,1]
+c = [1,1,2]
+d = [1,2,1]
+e = [2,1,1]
+
+test_list = [a,b,c,d,e]
+for list in test_list: 
+    medianOfThree(list,0,2)
+    print(list)
+
+
+
 def partition(a_list, first, last):
-    # Assume the pivot value is the first
     # first and last refer to indexes
+
+    # median of three to get median to start
+    medianOfThree(a_list,first,last)
 
     pivot_value = a_list[first]
     left_mark = first + 1
