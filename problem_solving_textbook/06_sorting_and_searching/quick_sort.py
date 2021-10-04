@@ -1,5 +1,5 @@
-def medianOfThree(a_list, first, last):
-
+def medianOfThree_fullyComparison(a_list, first, last):
+    """ Finds the median and brings it to the front """
     # Assume that the first value is already the median
     first_value = a_list[first]
     middle_value = a_list[len(a_list)//2]
@@ -16,8 +16,37 @@ def medianOfThree(a_list, first, last):
         else:
             a_list[len(a_list)//2], a_list[first] = a_list[first], a_list[len(a_list)//2]
 
+def medianOfThree(a_list, first, last):
+    """ 
+    Simpler implementation, since there are only three items to compare, find the relationship between first two
+    Now you know you only need to make an exchange a_list lie outside the range of first and last
+    3 comparisons comared to aboves 18 comparisons
+    """
+    first_value = a_list[first]
+    middle_value = a_list[len(a_list)//2]
+    last_value = a_list[last]
 
-# testing code for median of three
+    if middle_value >= last_value:
+        # since middle is first the list, we want it's order to be ahead of last value
+        # this is why we use >= instead of just =
+        # keeps the function stable
+        current_max = middle_value
+        max_index = len(a_list)//2
+        current_min = last_value
+        min_index = last
+    else:
+        current_min = middle_value
+        min_index = len(a_list)//2
+        current_max = last_value
+        max_index = last
+    
+    if (first_value > current_max):
+        a_list[first], a_list[max_index] = a_list[max_index], a_list[first]
+    elif (first_value < current_min):
+        a_list[first], a_list[min_index] = a_list[min_index], a_list[first]
+    
+
+# # testing code for median of three
 # a = [1,2,3]
 # b = [3,2,1]
 # c = [1,1,2]
@@ -29,8 +58,6 @@ def medianOfThree(a_list, first, last):
 # for list in test_list: 
 #     medianOfThree(list,0,2)
 #     print(list)
-
-
 
 def partition(a_list, first, last):
     # first and last refer to indexes
