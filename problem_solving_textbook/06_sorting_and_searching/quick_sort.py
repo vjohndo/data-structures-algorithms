@@ -10,14 +10,21 @@ def medianOfThree(a_list, first, last):
         a_list[len(a_list)//2], a_list[first] = a_list[first], a_list[len(a_list)//2]
     elif (last_value > first_value and last_value <= middle_value) or (last_value < first_value and last_value >= middle_value):
         a_list[last], a_list[first] = a_list[first], a_list[last]
+    elif (first_value > middle_value and first_value > last_value):
+        if middle_value < last_value:
+            a_list[last], a_list[first] = a_list[first], a_list[last]
+        else:
+            a_list[len(a_list)//2], a_list[first] = a_list[first], a_list[len(a_list)//2]
+
 
 a = [1,2,3]
 b = [3,2,1]
 c = [1,1,2]
 d = [1,2,1]
 e = [2,1,1]
+f = [1,2,2]
 
-test_list = [a,b,c,d,e]
+test_list = [a,b,c,d,e,f]
 for list in test_list: 
     medianOfThree(list,0,2)
     print(list)
