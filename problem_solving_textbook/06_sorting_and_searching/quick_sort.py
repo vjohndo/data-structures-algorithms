@@ -17,17 +17,18 @@ def medianOfThree(a_list, first, last):
             a_list[len(a_list)//2], a_list[first] = a_list[first], a_list[len(a_list)//2]
 
 
-a = [1,2,3]
-b = [3,2,1]
-c = [1,1,2]
-d = [1,2,1]
-e = [2,1,1]
-f = [1,2,2]
+# testing code for median of three
+# a = [1,2,3]
+# b = [3,2,1]
+# c = [1,1,2]
+# d = [1,2,1]
+# e = [2,1,1]
+# f = [1,2,2]
 
-test_list = [a,b,c,d,e,f]
-for list in test_list: 
-    medianOfThree(list,0,2)
-    print(list)
+# test_list = [a,b,c,d,e,f]
+# for list in test_list: 
+#     medianOfThree(list,0,2)
+#     print(list)
 
 
 
