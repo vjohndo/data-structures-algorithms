@@ -158,4 +158,51 @@ def evaluate(parse_tree):
         # Base case, this is not a leaf node, return
         return parse_tree.root
 
+
+def postordereval(tree):
+    operators = {
+        "+": operator.add,
+        "-": operator.sub,
+        "*": operator.mul,
+        "/": operator.truediv
+    }
+
+    result_1 = None
+    result_2 = None
+
+    # As this is an external function, check if the tree exists
+    # This is also why we set result 1 and result 2 as None... assume it's none, check if there's a value there then proceed to operate. 
+    # if it's none, that means we're at a leaf node
+    if tree:
+        # post order left sub tree
+        result_1 = postordereval(tree.get_left_child())
+
+        # post order right sub tree
+        result_2 = postordereval(tree.get_right_child())
+        
+        if result_1 and result_2:
+            # Otherwise we've recieved two values and can combine them
+            return operators[tree.get_root_val()](result_1, result_2)
+        else:
+            # Base case left node... return the root
+            return tree.get_root_val()
+
+
 print("=",evaluate(pt))
+
+
+def print_exp(tree):
+    result = ""
+
+    # If the tree exists:
+    if tree:
+        # for all left subtrees, add back in the "(" and... keep calling this recurssively.. eventually it wil print none
+        result = "(" + print_exp(tree.get_left_child())
+
+        # at the root value, add back in the operator
+        result = result + str(tree.get_root_val())
+
+        # at the end parenthesis 
+        result = result + print_exp(tree.get_right_child()) + ")"
+
+    return result
