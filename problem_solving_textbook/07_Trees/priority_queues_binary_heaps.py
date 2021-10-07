@@ -11,4 +11,3 @@ print(my_heap.delete())
 print(my_heap.delete())
 print(my_heap.delete())
 print(my_heap.delete())
-
