@@ -1,6 +1,6 @@
-from pythonds3.trees import BinaryTree
+# from pythonds3.trees import BinaryTree
 
-a = BinaryTree()
+# a = BinaryTree()
 
 def preorder(tree):
     """ Root, Left, Right """
