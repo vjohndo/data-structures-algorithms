@@ -72,7 +72,7 @@ class BinaryHeap:
             cur_idx = min_child_idx
 
 
-    def delete(self, item):
+    def delete(self):
         """ Removes the smallest item in the list """
         # Grab the root and replace it with the last item in the heap (maintains tree completeness)
         # Now need to push down that "last" item to a proper position to achieve heap order i.e. perc down
@@ -85,3 +85,30 @@ class BinaryHeap:
         return result
 
 
+    def heapify(self, not_a_heap):
+        self._heap = not_a_heap[:]
+
+        # We start the middle and work our way downn
+        # We start the middle because how how the binary tree works, the last half of the list will always be leaf nodes
+
+        cur_idx = len(self._heap) // 2 - 1
+        while cur_idx >= 0:
+            # perc down will help bring big items towards left nodes and pushes it as low as it can go which progresses faster towards no swapping
+            # ... percoluate up would keep jumbling up the order as you'd make unecessary changes
+            self._perc_down(cur_idx)
+            cur_idx = cur_idx - 1
+
+    def is_empty(self):
+        return not bool(self._heap)
+
+    def __len__(self):
+        return len(self._heap)
+
+    def __str__(self):
+        return str(self._heap)
+
+a_heap = BinaryHeap()
+a_heap.heapify([9, 5, 6, 2, 3])
+
+while not a_heap.is_empty():
+    print(a_heap.delete())
