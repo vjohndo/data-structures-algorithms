@@ -1,24 +1,3 @@
-class BinarySearchTree:
-    """ used to define a tree node """
-    def __init__(self):
-        # Root refers to the an instance of TreeNode or None if it is empty
-        self.root = None
-        # Refers to the size of the tree
-        self.size = 0
-
-    def __len__(self):
-        # dunder length function that describes the length of the tree
-        return self.size
-
-    def size(self):
-        # returns the size of the function
-        return self.size
-
-    def __iter__(self):
-        # dunder method that creates an iteratble function.
-        # it in facts calls upon the iterable function defined by the tree node instance
-        return self.root.__iter__()
-
 class TreeNode:
     """ 
     Tree node instance, provides many helper functions 
@@ -79,3 +58,53 @@ class TreeNode:
 
             # Set that child's reference to this instance of Parent
             self.right_child.parent = self
+
+class BinarySearchTree:
+    """ used to define a tree node """
+    def __init__(self):
+        # Root refers to the an instance of TreeNode or None if it is empty
+        self.root = None
+        # Refers to the size of the tree
+        self.size = 0
+
+    def __len__(self):
+        # dunder length function that describes the length of the tree
+        return self.size
+
+    def size(self):
+        # returns the size of the function
+        return self.size
+
+    def __iter__(self):
+        # dunder method that creates an iteratble function.
+        # it in facts calls upon the iterable function defined by the tree node instance
+        return self.root.__iter__()
+
+    def _put(self, key, value, current_node):
+        if key < current_node.value:
+            if current_node.left_child:
+                self._put(key, value, current_node.left_child)
+            else:
+                current_node.left_child = TreeNode(key, value, parent=current_node)
+
+        else:
+            if current_node.right_child:
+                self._put(key, value, current_node.right_child)
+            else:
+                current_node.right_child = TreeNode(key, value, parent=current_node)
+
+
+    def put(self, key, value):
+        """ Checks if there's a root"""
+        # if so pass the key value through the helper function
+        if self.root:
+            # Note that this a recursive function and will arguments will track the "current node"
+            self._put(key, value, self.root)
+        else:
+            # Create a new tree instance
+            self.root = TreeNode(key, value)
+
+        self.size += 1
+
+
+
