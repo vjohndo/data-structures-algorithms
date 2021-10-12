@@ -106,5 +106,42 @@ class BinarySearchTree:
 
         self.size += 1
 
+    def __setitem__(self, key, value):
+        self.put(key,value)
+
+    def _get(self, key, current_node):
+
+        # Base case 1, if the current node is empty, return none
+        if not current_node:
+            return None
+
+        # Base case 2, if the current node matches the key, return it
+        if current_node.key == key:
+            return current_node
+
+        # Progression to base case, but calling the function on the next child
+        if key < current_node.key:
+            return self._get(key, current_node.left_child)
+        else:
+            return self._get(key, current_node.right_child)
+
+    def get(self, key):
+        # If the tree is not empty
+        if self.root: 
+
+            # find the result by calling the _get(key, current_node)
+            # handy to have the _get helper function as we can use it with __getitem__
+            result = self._get(key, self.root)
+
+            # if that results is not None return the results value
+            if result: 
+                return result.value
+
+    def __getitem__(self, key):
+        return self.get(key)
+
+    def __contains__(self, key):
+        return bool(self._put(key,self.root))
+
 
 
