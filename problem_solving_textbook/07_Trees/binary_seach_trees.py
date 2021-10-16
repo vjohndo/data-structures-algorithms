@@ -143,6 +143,19 @@ class BinarySearchTree:
     def __contains__(self, key):
         return bool(self._put(key,self.root))
 
+    def find_min(self):
+        """ Finds the minimum Tree node """
+        pass
+    
+    def find_successor(self):
+        """  """
+        pass
+
+    def splice_out(self):
+        """ Cuts the successor out of the binary tree """
+        pass
+    
+    
 
     def _delete(self, current_node):
         """ Helper fuction that deals with a tree with more than 1 node"""
@@ -156,7 +169,10 @@ class BinarySearchTree:
 
         # In the case where the node has two children
         elif current_node.has_children():
-            pass
+            successor = current_node.find_successor()
+            successor.splice_out()
+            current_node.key = successor.key
+            current_node.value = successor.value
         
         # Otherwise now there is only the case were there is only one child
         # We must connect the parent of the node to delete to the child of hte node to delete
@@ -209,10 +225,6 @@ class BinarySearchTree:
                             current_node.right_child.left_child,
                             current_node.right_child.right_child,
                         )
-
-
-
-
 
     def delete(self, key): 
         if self.size > 1:
