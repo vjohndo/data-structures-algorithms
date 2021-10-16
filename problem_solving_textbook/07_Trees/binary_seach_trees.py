@@ -142,3 +142,100 @@ class BinarySearchTree:
 
     def __contains__(self, key):
         return bool(self._put(key,self.root))
+
+
+    def _delete(self, current_node):
+        """ Helper fuction that deals with a tree with more than 1 node"""
+
+        # Case where the node is a leaf, go back up to the parent and remove the reference
+        if current_node.is_leaf():
+            if current_node == current_node.parent.left_child:
+                current_node.parent.left_child = None
+            else:
+                current_node.parent.right_child = None
+
+        # In the case where the node has two children
+        elif current_node.has_children():
+            pass
+        
+        # Otherwise now there is only the case were there is only one child
+        # We must connect the parent of the node to delete to the child of hte node to delete
+        # However we must be assign it to either the left or right child reference of the parent node
+        else:
+            # If the left child exists for the node to be deleted
+            if current_node.get_left_child():
+
+                # If the node to be deleted is it self a left child
+                if current_node.is_left_child():
+                    
+                    # Reference the current nodes child and current node parents together
+                    current_node.left_child.parent = current_node.parent
+                    current_node.parent.left_child = current_node.left_child
+                
+                # If the node to be deleted is it self a righr child, 
+                elif current_node.is_right_child():
+
+                    # Reference the deleted nodes child and parents together
+                    current_node.left_child.parent = current_node.parent
+                    current_node.parent.right_child = current_node.left_child
+
+                # Otherwise we are dealing wih to root node
+                else:
+                    current_node.replace_value(
+                        current_node.left_child.key,
+                        current_node.left_child.value,
+                        current_node.left_child.left_child,
+                        current_node.left_child.right_child,
+                    )
+
+            # It must be the case the node to be deleted has a right child only
+            else:
+                    # If the node to be deleted is itself a left child
+                    # check again to see whether the node to be deleted is a left/right child of it's parent
+                    if current_node.is_left_child():
+                        current_node.right_child.parent = current_node.parent
+                        current_node.parent.left_child = current_node.right_child
+                    
+                    elif current_node.is_right_child():
+                        current_node.right_child.parent = current_node.parent
+                        current_node.parent.right_child = current_node.right_child
+
+
+                    # Otherwise it's the root node, replace it with the child
+                    else:
+                        current_node.replace_value(
+                            current_node.right_child.key,
+                            current_node.right_child.value,
+                            current_node.right_child.left_child,
+                            current_node.right_child.right_child,
+                        )
+
+
+
+
+
+    def delete(self, key): 
+        if self.size > 1:
+            node_to_remove = self._get(key, self.root)
+            # Use the helper _get function to find the node, should it exist
+            if node_to_remove:
+                # Let's abstract from the actual delete and through that all in a helper function for the time being 
+                self._delete(node_to_remove)
+                self.size = self.size - 1
+
+            else: 
+                raise KeyError("Error, key not in tree")
+
+        # Otherwise if there is only one item in the function, set key to none
+        elif self.size == 1 and self.root.key == key:
+            self.root = None
+            self.size = self.size - 1
+
+        # Otherwise key is not in the tree
+
+        else: 
+            raise KeyError("Error, key not in tree")
+
+    def __delitem__(self, key):
+        """ Dunder delete method """
+        self.delete(key)
