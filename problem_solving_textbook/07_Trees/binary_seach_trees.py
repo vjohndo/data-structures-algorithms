@@ -300,3 +300,15 @@ class BinarySearchTree:
     def __delitem__(self, key):
         """ Dunder delete method """
         self.delete(key)
+
+    def __iter__(self):
+        # recurssive, __iter__ overrides "for x in" function
+        if self:
+            if self.left_child:
+                for elem in self.left_child:
+                    yield elem
+            yield self.key
+            if self.right_child:
+                for elem in self.right_child:
+                    yield elem
+        
