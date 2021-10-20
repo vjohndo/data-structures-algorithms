@@ -144,17 +144,66 @@ class BinarySearchTree:
         return bool(self._put(key,self.root))
 
     def find_min(self):
-        """ Finds the minimum Tree node """
-        pass
+        current = self
+        # While a left child exists, keep reassigning until you've found the leftmost node in the tree
+        while current.left_child:
+            current = current.left_child
+        return current
     
     def find_successor(self):
-        """  """
-        pass
+        # Default is no successor should the node not have a right child
+        successor = None
+        if self.right_child:
+            # Go and find the minimum value on the right sub tree. Noting the min will be left most and have at most a single node
+            successor = self.right_child.find_min()
+        else:
+            # For casees where the parent exists
+            if self.parent:
+                if self.is_left_child():
+                    successor = self.parent
+                else:
+                    # We will need to fund the successor EXLCUDING the existing node. Remove it's reference from the parent
+                    self.parent.right_child = None
+                    # Run the code in the parent
+                    successor = self.parent.find_successor()
+                    # Then reassign the child 
+                    self.parent.right_child = self
+        return self
 
     def splice_out(self):
-        """ Cuts the successor out of the binary tree """
-        pass
-    
+        """ Cuts the successor out of the binary tree - we always gurantee the sucessor has at most one child"""
+        if self.is_leaf():
+            # If it's a leaf, remove the parents reference to it. Will be either left or right
+            if self.is_left_child():
+                self.parent.left_child = None
+            # Otherwise it must the right child of the parent
+            else:
+                self.parent.right_child = None
+        
+        # We only want splice working on nodes with a single child - we guarantee that the successor has at most one child
+        elif self.has_a_child():
+            
+            # check for if it's a left child
+            if self.left_child():
+                # check whether the node itself if a leeft or right child
+                if self.is_left_child():
+                    self.parent.left_child = self.left_child
+                else:
+                    self.parent.right_child = self.left_child
+
+                # Update the successors parent refernece
+                self.left_child.parent = self.parent
+            
+            # else it must be the case the hte node is has a right child
+            else:
+                if self.is_left_child():
+                    self.parent.left_child = self.right_child
+                else:
+                    self.parent.right_child = self.right_child
+
+                # Update the successors parent refernece
+                self.right_child.parent = self.parent
+
     
 
     def _delete(self, current_node):
