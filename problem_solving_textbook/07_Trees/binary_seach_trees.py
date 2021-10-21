@@ -1,3 +1,6 @@
+from pythonds3.trees.avl_tree import AVLTreeNode
+
+
 class TreeNode:
     """ 
     Tree node instance, provides many helper functions 
@@ -81,16 +84,22 @@ class BinarySearchTree:
         return self.root.__iter__()
 
     def _put(self, key, value, current_node):
+        # if the key to be added to the tree is less than the current node
         if key < current_node.value:
+            # if the current node has a left child
             if current_node.left_child:
+                # pass the the key into the put helper again
                 self._put(key, value, current_node.left_child)
             else:
+                # else you've reached a leaf node and create an instance of the tree node with the key, value, parent
                 current_node.left_child = TreeNode(key, value, parent=current_node)
 
+        # other wise the key is greater than current node, pass the key along and run the helper function again on the right chil
         else:
             if current_node.right_child:
                 self._put(key, value, current_node.right_child)
             else:
+                # base case, you've reached a leaf node
                 current_node.right_child = TreeNode(key, value, parent=current_node)
 
 
@@ -101,7 +110,7 @@ class BinarySearchTree:
             # Note that this a recursive function and will arguments will track the "current node"
             self._put(key, value, self.root)
         else:
-            # Create a new tree instance
+            # Create a new tree instance if there's no root.
             self.root = TreeNode(key, value)
 
         self.size += 1
@@ -317,4 +326,46 @@ class BinarySearchTree:
             if self.right_child:
                 for elem in self.right_child:
                     yield elem
+    
+
+class AVLTree(BinarySearchTree):
+    def _put(self, key, value, current_node):
+        if key < current_node.key:
+            if current_node.left_child:
+                self._put(self, key, value, current_node.left_child)
+            else:
+                current_node.left_child = AVLTreeNode(key, value, 0, parent=current_node)
+                # After finding a place to put the child node, need to update the load balance recursively.
+                self.update_balance(current_node.left_child)
+
+        else:
+            if current_node.right_child:
+                self._put(self, key, value, current_node.right_child)
+            else:
+                current_node.right_child = AVLTreeNode(key, value, 0, parent=current_node)
+                self.update_balance(current_node.right_child)
+    
+    def update_balance(self, node):
+        """ Recussive procedure """
+        # BASE 1: root node
+        # BASE 2: balance factor of parent --> 0
+        # Is the node unbalanced
+        if node.balance_factor > 1 or node.balance_factor < 1:
+            # rebalance the node and escape
+            self.rebalance(node)
+            # need to return something to to previous stack frame
+            return 
         
+        # elsif node has a parent
+        if node.parent:
+
+            # plus or minus the parent's balance factor depending on left/right child
+            if node.is_left_child:
+                node.parent.balance_factor += 1
+            else:
+                node.parent.balance_factor -= 1
+
+            # should parent's balance factor != 0, update the balance
+            # note how this progresses towards the root node i.e. base case
+            if node.parent.balance_factor != 0:
+                self.update_balance(node.parent)
