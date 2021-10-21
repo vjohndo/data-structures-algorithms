@@ -303,11 +303,17 @@ class BinarySearchTree:
 
     def __iter__(self):
         # recurssive, __iter__ overrides "for x in" function
+        # need to review "inorder function"
+        # remember you are currently sitting on the "self" node which potentially has a left and right child
         if self:
             if self.left_child:
+                # you are calling __iter__ on the self.left_child.... all the way until the base case NONE!
                 for elem in self.left_child:
+                    # After hitting the base case you can finally return the child. at first it will be the left most child
                     yield elem
+            # return the centre node i.e. self i.e. the root
             yield self.key
+            # progress down the right tree
             if self.right_child:
                 for elem in self.right_child:
                     yield elem
