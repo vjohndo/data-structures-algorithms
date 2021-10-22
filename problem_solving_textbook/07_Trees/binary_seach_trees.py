@@ -369,3 +369,50 @@ class AVLTree(BinarySearchTree):
             # note how this progresses towards the root node i.e. base case
             if node.parent.balance_factor != 0:
                 self.update_balance(node.parent)
+
+    def rotate_left(self, rotation_root):
+        """  """
+        # Set the new root as the right child of the existing rood
+        new_root = rotation_root.right_child
+
+        # Now that the new root is we can set the old root as the child of the new root
+        # This will still work for None
+        rotation_root.right_child = new_root.left_child
+
+        # Now we want to reassign that child's parent to the original rotation root
+        # Check if the root has a left child (noting that it could be None)
+        if new_root.left_child:
+            # Reassign the child's parent reference
+            new_root.left_child.parent = rotation_root
+        
+
+        # Now we want to start updating parent references
+        # Take the parent reference from old root, note that this code would still work for a root node, i.e. parent reference is None
+        new_root.parent = rotation_root.parent
+
+        # We want to check if the original root was a the root for the tree ... i.e. no parent
+        if rotation_root.is_root():
+            # Update the binary tree instance's reference to the new root 
+            self._root = new_root
+        
+        # Start acutally updating the parent references based on whether the child is a root
+        else: 
+            # If the root is left_child
+            if rotation_root.is_left_child():
+                rotation_root.parent.left_child = new_root
+
+            # If the root is right_child
+            else:
+                rotation_root.parent.right_child = new_root
+
+        # Update the new_root to old_root refernece
+        new_root.left_child = rotation_root
+
+        # Update the rotation root's parent
+        rotation_root.parent = new_root
+
+        # Update the balance factors...
+        # Note that we only need to balance the factors of the old and new root as moving all other subtrees around do not affect their balance factors
+        
+        rotation_root.balance_factor = (rotation_root.balance_factor + 1 - min(new_root.balance_factor, 0))
+        new_root.balance_factor = (new_root.balance_factor + 1 + max(rotation_root.balance_factor, 0))
