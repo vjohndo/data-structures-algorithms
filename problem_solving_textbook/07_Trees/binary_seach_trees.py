@@ -345,6 +345,30 @@ class AVLTree(BinarySearchTree):
                 current_node.right_child = AVLTreeNode(key, value, 0, parent=current_node)
                 self.update_balance(current_node.right_child)
     
+    def rebalance(self, node):
+        # If the node balance factor is heavy right, it needs a left roation
+        if node.balance_factor < 0:
+            # Check if the right child is left heavy
+            if node.right_child.balance_factor > 0:
+                # it needs a right rotation first
+                self.rotate_right(node.right_child)
+                # then rotate on the subtree
+                self.rotate_left(node)
+            else:
+                self.rotate_left(node)
+
+        # Node balance factor is heavy left
+        elif node.balance_factor > 0:
+            # check if the left child right heavy
+            if node.left_child.balance_factor < 0:
+                # it needs a left rotation
+                self.rotate_left(node.left_child)
+                # then right rotate the whole sub tree
+                self.rotate_right(node)
+            else:
+                self.rotate_right(node)
+
+
     def update_balance(self, node):
         """ Recussive procedure """
         # BASE 1: root node
@@ -369,6 +393,11 @@ class AVLTree(BinarySearchTree):
             # note how this progresses towards the root node i.e. base case
             if node.parent.balance_factor != 0:
                 self.update_balance(node.parent)
+
+            # SECRETE ELSE: BASE CASE ... DO NOTHING.
+            # AT THIS POINT THE PARENT'S BALANCE FACTOR HAS BEEN UPDATED.
+            # SHOULD THIS MADE THE BF = 0, the SUB TREE WAS ALREADY BALANCE AND CONTINUES TO BE BALANCED
+            # HENCE NO FURTHER CHANGE UP THE TREE... 
 
     def rotate_left(self, rotation_root):
         """  """
@@ -413,6 +442,6 @@ class AVLTree(BinarySearchTree):
 
         # Update the balance factors...
         # Note that we only need to balance the factors of the old and new root as moving all other subtrees around do not affect their balance factors
-        
+        # These equations come from solving simultenous eqns for new_bal(rotation_root) - old_bal(rotation root) & same for "new root"
         rotation_root.balance_factor = (rotation_root.balance_factor + 1 - min(new_root.balance_factor, 0))
         new_root.balance_factor = (new_root.balance_factor + 1 + max(rotation_root.balance_factor, 0))
