@@ -4,6 +4,7 @@ class Vertex:
         self.id = key
         # This dictionary keeps track of vertices to which it is connected and weight of each edge
         # {v1: 4, v2: 8 etc..}
+        # the id of the neighbour is the key and the weight of the path is the value.
         self.connectedTo = {}
 
     def addNeighbor(self, nbr, weight = 0):
@@ -15,6 +16,7 @@ class Vertex:
         return str(self.id) + ' connectedTo:' + str([x.id for x in self.connectedTo])
     
     def getConnections(self):
+        # recall that name of the neighbours are the keys of the connectedTo dictionary
         return self.connectedTo.keys()
 
     def getId(self):
@@ -26,6 +28,7 @@ class Vertex:
 
 
 class Graph:
+    ''' A graph contains a collection of vertices. We've defined each Vertex such that trakcs it's own edges to neighbours.'''
     def __init__(self):
         # A list containing all the vertices
         self.vertList = {}
@@ -36,6 +39,7 @@ class Graph:
         # In crease the number of vertices in the graph
         self.numVertices += 1
         # Create a new vertex instance using the key
+        # All a vertex is an id (info payload) + and a the connections to other nodes 
         newVertex = Vertex(key)
         # Create a new key value pair in the vertList index
         self.vertList[key] = newVertex
