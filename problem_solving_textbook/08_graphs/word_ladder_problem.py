@@ -66,11 +66,44 @@ def bfs(g, start):
 
     # We will now start processing the vert queue
     while (vertQueue.size() > 0):
+
+        # Set the current vert as the next item on the queue
         currentVert = vertQueue.dequeue()
 
         # Iterate through the adjacency list of the vertex
         for nbr in currentVert.getConnections():
             
-            # If the neighbour's color is white 
+            # If the neighbour's color is white i.e. if we haven't visited the node yet
             if (nbr.getColor() == "white"):
+
+                # Set the unvisted neighbours color to gray
                 nbr.setColor('gray')
+
+                # Set the distance from the starting node as the current verticies distance + 1
+                nbr.setDistance(currentVert.getDistance() + 1)
+
+                # Set the predecessor vertex to the "current node"
+                # By setting this up we are no longer required to start from "starter node"
+                nbr.setPred(currentVert)
+
+                # Then add the item back in the queue 
+                vertQueue.enqueue(nbr)
+
+            # If the neighbour's color is not white, it must be grey for it to have been in the queue 
+            # If it's grey it would have already been explored, therefore a short path exists to this node
+            # We don't need to add in the explored node to the queue as there will already be an entry into the queue ready for expansion
+
+            # After going through all the neighbours the current node will have been fully explored and we can set it to black
+            currentVert.setColor('black')
+
+
+def traverse(y):
+    x = y 
+    while (x.getPred()):
+        print(x.getId())
+        x = x.getPred()
+    print(x.getId())
+
+traverse(g.getVertext('sage'))
+
+
