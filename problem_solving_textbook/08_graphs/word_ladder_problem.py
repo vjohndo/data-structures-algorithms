@@ -1,4 +1,5 @@
 from pythonds3.graphs import Graph
+from pythonds3.basic import Queue
 
 def buildGraph(wordFile):
 
@@ -47,3 +48,29 @@ def buildGraph(wordFile):
                 if word1 != word2:
                     g.addEdge(word1,word2)
     return g
+
+
+def bfs(g, start):
+    """ 
+    Search function, takes in a graph and a starting vertex
+    """
+
+    # Set the distance and predecessor nodes to 0 and None respoective
+    start.setDistance(0)
+    start.setPred(None)
+
+    # Initialise a verticies queue which will handle our actions
+    # Then add the starting vertex to the queue
+    vertQueue = Queue()
+    vertQueue.enqueue(start)
+
+    # We will now start processing the vert queue
+    while (vertQueue.size() > 0):
+        currentVert = vertQueue.dequeue()
+
+        # Iterate through the adjacency list of the vertex
+        for nbr in currentVert.getConnections():
+            
+            # If the neighbour's color is white 
+            if (nbr.getColor() == "white"):
+                nbr.setColor('gray')
