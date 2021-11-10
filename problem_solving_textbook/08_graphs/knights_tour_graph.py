@@ -1,4 +1,4 @@
-from pythonds3.graphs import Graph
+from pythonds3.graphs import Graph, Vertex
 
 def knightGraph(bdSize):
     # Create an instance of the class
@@ -43,3 +43,52 @@ def legalCoord(x,bdSize):
     else:
         return False
 
+def knightTour(n, path, u, limit):
+    """
+    n --> depth of the current tree,
+    path --> list of all previously visited nodes,
+    u --> vertex we want to explore,
+    limit --> the number of nodes in the path
+    """
+
+    # set the color of the node we are visiting to grey
+    u.setColor('gray')
+
+    # Add this node to the path path as we've now visited it
+    path.append(u)
+
+    # it we haven't hit the limit of nodes in our path
+    # we will keep recursively 
+    # ELSE we will escape this until our path has exhaused all routes
+    if n < limit:
+
+        # Get a list of neightbouts connections
+        nbrList = list(u.getConnections())
+
+        # initalise some variables for our while loop
+        """ i --> index, done --> whether it's done"""
+        i = 0 
+        done = False
+
+        while i < len(nbrList) and not done:
+            
+            # if the node hasn't been explored i.e. color is white
+            if nbrList[i].getColor() == 'white':
+
+                # determine the "doneness by exploring the next level for each vertex
+                # notice how it stack frames would keep digging down the depths
+                done = knightTour(n+1, path, nbrList[i], limit)
+
+        # So after we've explored the depth and we've reached the last node and done is still false?
+        # time to backtrack
+        if not done:
+            # pop the vertex
+            path.pop()
+
+            # "unexplore that node", we leave it avaialble to be explored again along another potential path
+            u.setColor('white')
+
+    else: 
+        done = True
+    
+    return done
