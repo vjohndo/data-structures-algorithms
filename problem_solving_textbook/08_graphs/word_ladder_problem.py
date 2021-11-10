@@ -104,6 +104,6 @@ def traverse(y):
         x = x.getPred()
     print(x.getId())
 
-traverse(g.getVertext('sage'))
+# traverse(g.getVertext('sage'))
 
 
