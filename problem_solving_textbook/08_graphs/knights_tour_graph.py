@@ -62,8 +62,13 @@ def knightTour(n, path, u, limit):
     # ELSE we will escape this until our path has exhaused all routes
     if n < limit:
 
-        # Get a list of neightbouts connections
-        nbrList = list(u.getConnections())
+        # Get a list of neightbours connections as (key, reference node)
+        # nbrList = list(u.getConnections())
+        
+        ## This would just go in order of neighbours
+        ## We can implement a heuristic
+        nbrList = orderByAvail(u)
+        
 
         # initalise some variables for our while loop
         """ i --> index, done --> whether it's done"""
@@ -92,3 +97,35 @@ def knightTour(n, path, u, limit):
         done = True
     
     return done
+
+def orderByAvail(n):
+
+    # Contrains a results lists
+    resList = []
+
+    # For the vertex in question, go through of it's connections
+    for v in n.getConnection():
+
+        # if it has not been visted
+        if v.getColor() == 'white':
+
+            # initialise the number of connections that vertex has (starts 0)
+            c = 0
+
+            # Go through each of the connected vertices
+            for w in v.getConnections():
+
+                # If the color is white i.e. it can still be explored
+                if v.getColor() == 'white':
+
+                    # Increase the "legal" connections counter
+                    c = c + 1
+
+            # Add it to the list 
+            resList.append((c,v))
+
+    # sort it based on x & x[0]
+    resList.sort(key=lambda x: x[0])
+
+    # return a list of vertices, by pulling out the vertex i.e. (c,v)[1]
+    return [y[1] for y in resList]                
