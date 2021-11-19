@@ -22,3 +22,8 @@ def disk_usage(path):
     # A recursion trace would be in the order of the nodes visited
     print('{0:<7}'.format(total), path)
     return total
+
+    # Claim 1 --> recursion activations O(n), each activation has for loop which at worst case is O(n) so O(n^2)
+    # But can every directy possibly have O(n) iterations????
+    # Claim 2 --> across all recrusion activations O(n) there will be at most n-1 iteractions of a for loop. So O(n)
+    # This is amortisation, looking at the cumulative effect of operations, rather than looking at each scope individually.
