@@ -41,3 +41,27 @@ class DynamicArray:
     def _make_array(self, c):
         """Return new array with capacity c."""
         return (c * ctypes.py_object)() # makes a low level array
+
+    def insert(self, k, value):
+        """Insert value at index k, shifting subsequent values rightward"""
+
+        if self._n == self._capacity: # If we've reached the limit
+            self._resize(2 * self._capacity) # Resize the list
+        
+        # Go through the list list and append
+        for j in range(self._n, k, -1):
+            self._A[j] = self._A[j-1] # shift the right most cells right
+        self._A[k] = value # insert the new cell
+        self._n += 1 # increase the capacity count by 1
+        
+    def remove(self, value):
+        """Remove first occurence of value (or raise ValueError)"""
+
+        for k in range(self._n):
+            if self._A[k] == value:
+                for j in range(k, self._n - 1):
+                    self._A[j] = self._A[j+1]
+                self._A[self._n - 1] = None
+                self._n -= 1
+                return 
+        raise ValueError('value not found')
