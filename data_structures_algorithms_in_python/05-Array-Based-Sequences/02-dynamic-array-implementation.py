@@ -57,11 +57,11 @@ class DynamicArray:
     def remove(self, value):
         """Remove first occurence of value (or raise ValueError)"""
 
-        for k in range(self._n):
-            if self._A[k] == value:
-                for j in range(k, self._n - 1):
-                    self._A[j] = self._A[j+1]
-                self._A[self._n - 1] = None
-                self._n -= 1
-                return 
+        for k in range(self._n): 
+            if self._A[k] == value: # find the item to be rempved
+                for j in range(k, self._n - 1): # then shift all items back one (reassign each cell the to the cell ahead of it)
+                    self._A[j] = self._A[j+1] 
+                self._A[self._n - 1] = None # set the final cell to none
+                self._n -= 1 # remove item 
+                return # exit immediately 
         raise ValueError('value not found')
