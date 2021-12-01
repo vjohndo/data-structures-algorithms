@@ -5,6 +5,8 @@ def twoSum(nums, target):
     :rtype: List[int]
     """
     
+    # Use the hash table to reduce time complexity
+    # Think... how can i store data in a way such that if I find a complimentary pair i can return
     hash_table = {}
     
     for index, num in enumerate(nums):
