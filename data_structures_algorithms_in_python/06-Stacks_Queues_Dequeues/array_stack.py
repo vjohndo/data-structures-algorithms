@@ -1,11 +1,12 @@
 class Empty(Exception):
+    """Error attempting to access an element from an empty container"""
     pass
 
 class ArrayStack:
     """LIFO Stack implementation using the Python List as underlying storage"""
 
     def __init__(self):
-        """create an empty stack"""
+        """Create an empty stack"""
         self._data = [] # nonplublic list instance
 
     def __len__(self):
@@ -21,7 +22,7 @@ class ArrayStack:
         self._data.append(e)
 
     def top(self):
-        """Return (but do not remove) the leemnt at the top of the stack"""
+        """Return (but do not remove) the elemnt at the top of the stack"""
 
         if self.is_empty(): 
             raise Empty('Stack is empty')
