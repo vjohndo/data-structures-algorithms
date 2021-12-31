@@ -5,7 +5,7 @@ def binary_search(data, target, low, high):
     #   1) target = data[mid]
     #   2) target < data[mid]
     #   3) targer > data[mid]
-    # An unsucessful search will results in "low" < "high"
+    # An unsucessful search will results in "low" < "high" i.e. our window extents have overlapped 
 
     if low > high:
         # Notice on the if statements that that lead to recursion

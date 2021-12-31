@@ -2,7 +2,7 @@ class Empty:
     """Error class upon empty"""
     pass
 
-class ArrayQueue:
+class ArrayDeque:
     """FIFO queue implementation using a Python list as underlying storage."""
     
     # Want to moderate the capacity for all new queues
@@ -31,12 +31,22 @@ class ArrayQueue:
         
         Raise Empty exception if the queue is empty
         """
-
         if self.is_empty():
             raise Empty('Queue is empty')
         return self._data[self._front]
 
-    def dequeue(self):
+    def last(self):
+        """ Return (but do not remove) the last element of deque
+        
+        Raise Empty exeception if the deque is empty
+        """
+        if self.is_empty():
+            raise Empty('Queue is empty')
+
+        return self._data[(self._front + self._size - 1) % len(self._data)]
+
+
+    def delete_first(self):
         """Remove and return the first element of the queue
         
         Reaise Empty exception if the queue is empty
@@ -66,7 +76,34 @@ class ArrayQueue:
 
         return answer
 
-    def enqueue(self, e):
+    def delete_last(self):
+        """Remove and return the last element of the queue
+        
+        Reaise Empty exception if the queue is empty
+        """
+
+        if self.is_empty():
+            raise Empty('Queue is empty')
+        
+        # We will need to reassign self._size and self._front
+        # Since we will change front we need to grab the reference to the front of queue first
+        answer = self._data[(self._front + self._size - 1) % len(self._data)]
+
+        # We can now remove point the cell of the list to none
+        # also helpful for garbage collection i.e. python maintains a count of references to an object.  Should references be 0, python can recalin that for memeory 
+        self._data[(self._front + self._size - 1) % len(self._data)] = None
+
+        # We can now also reduce the size of the queue by 1
+        self._size -= 1
+
+        # future implementation should consider resizing the array 
+        # optimal strategy is to hald the size of the array should the size of the queue hit 1/4 capacity
+        if 0 < self._size < len(self._data) // 4:
+            self._resize(len(self._data)//2)
+
+        return answer
+
+    def add_last(self, e):
         """Add an element to the back of queue"""
 
         # Check if we are at the limit of the array
@@ -77,6 +114,24 @@ class ArrayQueue:
 
         # Go to the next available index 
         avail = (self._front + self._size) % len(self._data)
+        
+        # Now you can define the next index
+        self._data[avail] = e
+
+        # Increase the size 
+        self._size += 1
+    
+    def add_first(self, e):
+        """Add an element to the front of queue"""
+
+        # Check if we are at the limit of the array
+        if self._size == len(self._data):
+            
+            # We will need to resize... we'll define this later
+            self._resize(2 * len(self._data))
+
+        # Go to the next available index at front 
+        avail = (self._front - 1) % len(self._data)
         
         # Now you can define the next index
         self._data[avail] = e

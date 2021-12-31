@@ -3,8 +3,10 @@ def unique(S, start, stop):
     # We now that a single element is arbitrarily unique.
 
     if stop - start <= 1: return True
-    elif not unique(S, start, stop-1): return False
-    elif not unique(S, start+1, stop): return False
+    elif not unique(S, start, stop-1): 
+        return False
+    elif not unique(S, start+1, stop):
+        return False
     else: return S[start] != S[stop-1]
 
 def bad_fibonacci(n):
