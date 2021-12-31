@@ -14,7 +14,7 @@ class ArrayDeque:
         """Create an empty queue"""
 
         # Create an empty queue, using the default capacity which is a class data member
-        self._data = [None] * ArrayQueue.DEFAULT_CAPACITY
+        self._data = [None] * ArrayDeque.DEFAULT_CAPACITY
         self._size = 0 # size is 0 upon instantiation
         self._front = 0 # front of queue index is 0 upon instantiation
 
