@@ -81,3 +81,42 @@ class FavouritesList:
             item = walk.element()
             yield item._value
             walk = self._data.after(walk)
+
+class FavoritesListMTF(FavouritesList):
+    """List of elements ordered with move-to-front heuristic"""
+
+    # We override _move_up to provide move to front semanctics
+    def _move_up(self,p):
+        """Move accessed item at Position p to front of list"""
+
+        if p != self._data.first():
+            self._data.add_first(self._data.delete(p))
+
+    def top(self, k):
+        """Generate sequence of top k elements in terms of access count"""
+        if not 1 <= k <= len(self):
+            raise ValueError('Illegal value for k')
+
+        # We begin by making a copy of the original list
+        # We need to make a copy as we intend to go through and delete items in the list
+        temp = PositionalList()
+        for item in self._data:
+            temp.add_last(item)
+
+        # repeatedly find, report and remove elmenet with largest count
+        for j in range(k):
+            # find and report the next highest from temp
+            highPos = temp.first()
+            walk = temp.after(highPos)
+            while walk is not None:
+                if walk.element()._count > highPos.element()._count:
+                    highPos = walk
+
+                walk = temp.after(walk)
+
+            # After finding the element with the highest count 
+            yield highPos.element()._value
+            # Also remove it form the linked list
+            temp.delete(highPos)
+
+        
