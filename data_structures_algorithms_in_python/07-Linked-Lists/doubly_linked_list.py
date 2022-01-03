@@ -53,6 +53,7 @@ class _DoublyLinkedBase:
 
         return element
 
+
 class LinkedDeque(_DoublyLinkedBase): # Note the use of inheritance
     """Double-ended queue inmplementation based on a doubly linked list"""
 
