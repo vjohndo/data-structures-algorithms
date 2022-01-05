@@ -1,4 +1,4 @@
-from treeAbstractBase import Tree
+from Tree import Tree
 
 class BinaryTree(Tree):
     """Abstract base class representing a binary tree structure"""
@@ -43,4 +43,26 @@ class BinaryTree(Tree):
         if self.right(p) is not None:
             yield self.right(p)
 
+    # --- Traversal methods for binary trees
+    def inorder(self):
+        """Generate an inroder iteration of positions in the tree."""
+        if not self.is_empty():
+            for p in self._subtree_inorder(self.root()):
+                yield p
+
+    def _subtree_inorder(self, p):
+        """Generate an inorder iteration of positions in subtree rooted at p"""
+        if self.left(p) is not None: # if left exits traverse its sub tree
+            for other in self._subtree_inorder(self.left(p)):
+                yield other
         
+        yield p
+
+        if self.right(p) is not None: # if right exists travers its sub tree
+            for other in self._subtree_inorder(self.right(p)):
+                yield other
+
+    # override inherited version to make inorder default for Binary Trees
+    def positions(self):
+        """Generate an iteration of tree's positions"""
+        return self.inorder()

@@ -1,3 +1,5 @@
+from LinkedQueue import LinkedQueue
+
 class Tree:
     """Abstract base class representing a tree structure"""
 
@@ -84,3 +86,57 @@ class Tree:
             p = self.root()
 
         return self._height2(p)
+
+    # --- Traversal 
+    def __iter__(self):
+        """Generate an iteration of the tree's elements"""
+        for p in self.positions():
+            yield p.element()
+
+    # --- Preorder traversal
+    def _subtree_preorder(self, p):
+        # read page 334 for textbook
+        """Generate a preorder iteration of positions in subtree rooted at p."""
+        yield p # This yielded position if only for this instance of the stack frame, need to get the ones from the other frames too
+        for c in self.children(p): # for each child in c
+            for other in self._subtree_preorder(p): # preorder on them, creating a new stack frame each with a single yielded position
+                yield other # Then look at the iterators created by the subtrees and yield them to this stack frame
+
+    def preorder(self):
+        """Generate a preorder iteratinon of positions in the tree."""
+        if not self.is_empty():
+            for p in self._subtree_preorder(self.root()): # similarly when we invoke _subtree_preorder, the iterator only exists in the stack frame
+                yield p # need to pull it out of the stack frame by yielding through the iterator 
+
+    def positions(self):
+        """Generate an iteration of the tree's positions"""
+        return self.preorder()
+
+    # --- Post order traversal
+    def postorder(self):
+        """Generate a postorder iteration of positions in the tree"""
+        if not self.is_empty():
+            for p in self._subtree_postorder(c):
+                yield p
+
+    def _subtree_postorder(self, p):
+        """Generate a postorder iteration of positions in subtree rooted at p"""
+        for c in self.children(p):
+            for other in self._subtree_postorder(p):
+                yield other
+        yield p
+
+    # -- Breadth-first Traversal
+        """Generate a breadth-first iteration of positions of the tree"""
+        if not self.is_empty():
+            fringe = LinkedQueue()
+            fringe.enqueue(self.root())
+
+            while not fringe.is_empty():
+                p = fringe.dequeue()
+                yield p
+                for c in self.children(p):
+                    fringe.enqueue(p)
+    
+    
+
