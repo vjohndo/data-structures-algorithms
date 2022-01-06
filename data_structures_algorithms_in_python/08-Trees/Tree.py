@@ -116,7 +116,7 @@ class Tree:
     def postorder(self):
         """Generate a postorder iteration of positions in the tree"""
         if not self.is_empty():
-            for p in self._subtree_postorder(c):
+            for p in self._subtree_postorder(self.root()):
                 yield p
 
     def _subtree_postorder(self, p):
@@ -137,6 +137,3 @@ class Tree:
                 yield p
                 for c in self.children(p):
                     fringe.enqueue(p)
-    
-    
-
