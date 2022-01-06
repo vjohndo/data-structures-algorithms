@@ -1,4 +1,4 @@
-from binaryTreeAbstract import BinaryTree
+from BinaryTree import BinaryTree
 
 class LinkedBinaryTree(BinaryTree):
     """Linked representation of a binary tree structure"""
@@ -14,7 +14,7 @@ class LinkedBinaryTree(BinaryTree):
             self._right = right
 
     class Position:
-        """Public class, an abstraction representing the location of a single element"""
+        """Public class, an abstraction (of the node) representing the location of a single element"""
 
         def __init__(self, container, node):
             """Costructor should not be invoked by user"""
@@ -27,7 +27,9 @@ class LinkedBinaryTree(BinaryTree):
 
         def __eq__(self, other):
             """Return True if other is a Position representing the same location"""
-            return type(other) is type(self) and other._node is self._nodde
+            return type(other) is type(self) and other._node is self._node
+            
+        # def __ne__ has already been inherited from the Abstract Base Class
 
     # --- utility methods
     def _validate(self, p):
@@ -45,6 +47,7 @@ class LinkedBinaryTree(BinaryTree):
 
     def _make_position(self, node):
         """Return Position instance for given noe (or None if no node)."""
+        # useful for wraping the node and returning it as a position
         return self.Position(node) if node is not None else None
 
     # --- binary tree constructor
@@ -83,6 +86,7 @@ class LinkedBinaryTree(BinaryTree):
         
         return count
 
+    # --- Update methods, notice that they are all nonpublic
     def _add_root(self, e):
         """Place element e at the root of an empty tree and return new Position
         
@@ -181,7 +185,7 @@ class LinkedBinaryTree(BinaryTree):
         if not type(self) is type(t1) is type(t2): # all 3 trees must be same type
             raise TypeError('Tree types must match')
 
-        self._size += len(t1) + len(t2_)
+        self._size += len(t1) + len(t2)
 
         if not t1.is_empty():
             t1._root._parent = node # where node is the node we are attaching t1 to
@@ -198,12 +202,3 @@ class LinkedBinaryTree(BinaryTree):
             # Then set the t2 tree instance to empty
             t2._root = None
             t2._size = 0
-
-            
-
-
-
-
-
-        
-        
