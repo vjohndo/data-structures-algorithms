@@ -1,9 +1,6 @@
 class PrioirtyQueueBase:
     """Abstract base class for a prioirty queue"""
 
-    class Empty:
-        pass
-
     class _Item:
         """Lightweight composite to store priority queue items"""
         __slots__ = '_key', '_value'
