@@ -54,9 +54,21 @@ class HeapPriorityQueue(PrioirtyQueueBase): # base class, defines _Item
                 self._downheap(small_child) # Recur at the position of small child
 
     # --- public behaviours
-    def __init__(self):
-        """Create a new priority queue"""
-        self._data = []
+    def __init__(self, contents=()):
+        """Create a new priority queue
+        
+        By default, queue will be empty. If contents is given, it should be as an iterable sequence of (k,v) tuples 
+        specifying the initial contents 
+        """
+        self._data = [ self._Item(k,v) for k,v in contents ]
+        if len(self._data) > 1:
+            self._heapify(self)
+
+    def _heapify(self):
+        """Algorithm for bottn-up heap contrsuction"""
+        start = self._parent(len(self) - 1) # start at the parent of the last node
+        for j in range(start, -1, -1): # then apply the downheap for all nodes up to the root
+            self._downheap(j)
 
     def __len__(self):
         """Return the number of items in the priority queue"""
