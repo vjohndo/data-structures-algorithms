@@ -78,6 +78,7 @@ class ParenthesizeTour(EulerTour):
         # then print the element that we are recurring for
         print(p.element(), end = '')
 
+        # Notice how we need to use self.tree() from the within the hooks as it is public   
         if not self.tree().is_leaf(p): # Then open up the parenthesis for any children this node may have
             print(' (', end = '')
 
