@@ -60,6 +60,6 @@ class HashMapBase(MapBase):
         self._table = c * [None]
         self._n = 0 
         for (k,v) in old:
-            self[k] = v 
+            self[k] = v # This uses __setitem__ which will rehash the keys
     
     

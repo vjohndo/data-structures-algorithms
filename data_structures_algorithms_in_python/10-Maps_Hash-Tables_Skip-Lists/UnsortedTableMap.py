@@ -1,6 +1,7 @@
 from MapBase import MapBase
 
 # This implementation is bad. It uses a loop to scan through the entire list which requires O(n)
+# However this will serve as a useful container for seperate chaining implementation of hash table
 class UnsortedTableMap(MapBase):
     """Map implementation using an unordered list."""
 
@@ -23,8 +24,7 @@ class UnsortedTableMap(MapBase):
             if k == item._key:
                 item._value = v
                 return 
-        
-        # If you did not find a match for the key, add it to the table
+        # If you did not find a match for the key, add it to the table !!! Important for ChainHashMap
         self._table.append(self._Item(k,v))
 
     def __delitem__(self, k):
@@ -44,3 +44,4 @@ class UnsortedTableMap(MapBase):
         """Generate iteration of the map's keys"""
         for item in self._table:
             yield item._key
+    
