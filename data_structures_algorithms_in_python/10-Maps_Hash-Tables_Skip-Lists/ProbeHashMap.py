@@ -22,7 +22,7 @@ class ProbeHashMap(HashMapBase):
             if self._is_available(j): # If the space is empty / available:
                 if firstAvail is None: 
                     firstAvail = j # Set firstAvail as jth index
-                if self._table[j] is None: # Notice how we are only stopping the search on is None
+                if self._table[j] is None: # Notice how we are only stopping the search on is None, as an Available bucket could 
                     return (False, firstAvail)
             elif k == self._table[j]._key: # If the bucket is an object
                 return(True, j)

@@ -40,7 +40,7 @@ class SortedTableMap(MapBase):
 
         # Rememeber that find index will return the index just beyond the missing target
         # if jth index is not an index in the range of table or if the returned index in the table is not k
-        # raise a value error
+        # raise a value error (note that we have the first condition j == len(self._table as we want to raise our own KeyError, not python's one for list))
         if j == len(self._table) or self._table[j]._key != k:
             raise KeyError('Key Error: ' + repr(k))
 
@@ -111,6 +111,19 @@ class SortedTableMap(MapBase):
         else: # J must have been -1 i.e. no key less than or equal to k
             return None
 
+    def find_le3(self, k):
+        """Return (key, value) pair with the greatest key less than or equal to k"""
+        """This is a selfmade version, should check"""
+        # find the jth index of k
+        j = self._find_index(k, 0, len(self._table)-1)
+
+        if self._table[j]._key == k: # Check that it's a match. 
+            j += 1 # Then we'll increase it by 1 as we'll be decrasing it by one in the next stal
+        if j > 0: # Now J will either be at the less than value or the is the equal value, but chance that j is -1
+            return (self._table[j-1]._key, self._table[j-1]._value)
+        else: # J must have been -1 i.e. no key less than or equal to k
+            return None
+
     def find_lt(self, k):
         """Return (key, value) pair with greatest key strictly less than k."""
         j = self._find_index(k, 0, len(self._table)-1)
@@ -141,4 +154,15 @@ class SortedTableMap(MapBase):
         If start is None, iteration begins with minimum key of map.
         If stop is None, iteration contiues through the maximum key of map.
         """
+        # First find start
+        if start is None:
+            j = 0
+        else:
+            j = self._find_index(start, 0, len(self._table) -1)
 
+        # Then iterate through until we've found stop.
+        # I.e. until the we've hit the end or we've found a key greater than the stop
+        while j < len(self._table) and (stop is None or self._table[j]._key < stop):
+            yield (self._table[j]._key, self._table[j]._value)
+            j += 1
+        
