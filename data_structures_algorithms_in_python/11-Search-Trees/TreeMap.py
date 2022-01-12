@@ -202,3 +202,58 @@ class TreeMap(LinkedBinaryTree, MapBase):
                 return
             self._rebalance_access(p) # Hook for balanced tree subclass
         raise KeyError('Key Error: ' + repr(k))
+
+    def _rebalance_insert(self, p): pass
+    def _rebalance_delete(self, p): pass
+    def _rebalance_access(self, p): pass
+
+    def _relink(self, parent, child, make_left_child):
+        """Relink parent node with child node (we all child to be None)"""
+        # Link the parent to child
+        if make_left_child:
+            parent._left = child
+        else:
+            parent._right = child
+
+        # Link child to parent
+        if child is not None:
+            child._parent = parent
+
+    def _rotate(self, p):
+        """Rotate Position p above its parent"""
+        x = p._node
+        y = x._parent # We assume that this exists
+        z = y._parent # grandparent (possible None i.e. y would be the parent)
+
+        # Linking with parent and dealing with root
+        if z is None: # Case that y is originally the root
+            self._root = x
+            x._parent = None
+        else:
+            # Make it so that x becomes of the child of z, we make sure to keep the same right / left child relationship by passing in the conditional as the third arg
+            # In other words, x takes the place of y
+            self._relink(z,x,y == z._left) 
+        
+        # Now rotate x and y, including transfer of middle subtree
+        if x == y._left: # If x was originally the left child of t,
+            self._relink(y, x._right, True) # Take the right child of x and make it the left child of y
+            self._relink(x, y, False) # And now make y the right child 
+        else:
+            self._relink(y, x._left, False) # Take the originally left child of x and make it the right child of y
+            self._relink(x, y, True) # y becomes the left child of x 
+
+    def _restructure(self, x):
+        """Perform trinode restructore of Position x with parent / grandparent"""
+        y = self.parent(x)
+        z = self.parent(y)
+        
+        # For the case wher ethe alignment between node and ancestors is the same
+        if (x == self.right(y)) == (y == self.right(z)):
+            self._rotate(y) # Only needto rotate the parent with grand parent
+            return y # return the roof of the subtree
+        else:
+            # We have the case of opposite alignments
+            # Rotate x and with y to get on the same alignment
+            self._rotate(x) # X is now the parent, y is the child
+            self._rotate(x) # X is now subtree root with z, y as children
+            return x # Return the root of subtree
