@@ -38,11 +38,17 @@ def find_boyer_moore(T, P):
         else:
             j = last.get(T[i], -1) 
             # find the mismtached index j in P, it could be the case that k is less than j (i.e. the matching index is to the right)
+            # We have a case for when (j-1) > k i.e. if a matching index is to the left of k (or if no matching index exists)
+            #   ---> if the j is still less than k or not there bigger skip
+            #   ---> if the j is greater than k --> mini skip
+
             
             # Possible step back options 
             # j can be -1 (i.e. the match ) --> if no matching char, full skip with no step back (j-1) = 0
             # j can be some value 0 <= j < m --> if there is a matchking char, full skip and step back to matching index
             # k will be the (number of things we've checked -1) --> full skip, and step back until just after mismatched index
+            # Notice how the max skip always takes precendence in the case analysis
+                # i.e. check for FULL SKIP, then matched skip, then min skip
             # We take the max skip possible, i.e. the min of the (step back options)
 
             i += m - min(k, j+1) 
