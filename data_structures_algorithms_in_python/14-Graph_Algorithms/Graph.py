@@ -125,5 +125,5 @@ class Graph:
     def insert_edge(self, u, v, x=None):
         """Insert and return a new Edge from u to v with auxiliary element x."""
         e = self.Edge(u, v, x)
-        self._outgoing[u][v] = e
+        self._outgoing[u][v] = e # Notice how the same instance of e is assigned, this will work with the set() in the edges() function
         self._incoming[v][u] = e
