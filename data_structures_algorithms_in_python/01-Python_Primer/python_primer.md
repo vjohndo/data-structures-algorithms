@@ -62,4 +62,24 @@
 * formal parameters --> identifiers for expected parameters 
 * actual parameters --> objects sent by caller when invoking the function
 * when passing in actual parameters, aliases are made with the formal paramaters for the respective actual parameters 
+ 
+# Default parameters
+* functions can support more than one calling signature --> polymorphic
+* it is illegal to define something like bar(a, b=15, c)
+* if a default parameter is present for one parameter it must be present for all subsequent parameters
 
+# Keyword parameters
+* Python allows you explicitly assign an actual parameter to a formal parameter by name
+* e.g. foo(c=5)
+* this is in contrast to the positional arguments we're familiar with
+
+# Catching an exception
+* look before you leap --> use control flow to get rid of exceptions first
+* try-except --> try first then run except code on exceptions
+* except IOError as e: --> e will be the instance of the exception 
+* can use tuples to catch multiple errors e.g. except (ValueError, EOFError):
+* error raised in the try: block will skip immediately to the except block
+* can have multple except clauses ... much like elif statements  
+* can reraise errors by having a single *raise* in the except block
+* avoid using except on its own. Difficult to handle and unkown error type
+* finally will already run even for uncaught or re-raised exception errors
