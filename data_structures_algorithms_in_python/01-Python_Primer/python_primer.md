@@ -29,3 +29,26 @@
 ## Logical operators
 * *and* and *or* short circuit
 
+## Equality operators
+* *is* for same objects
+* *==* for general equivalance. i.e. if same object and if values deemed to be equivalent
+
+## Extended Assignment
+* example +=
+* if immutable will reassign the identifier to newly constructed variable e.g. string
+* lists however redefine the semantics e.g. beta += [4,5] will mutate the original list object. beta = beta + [4,5] will reassign beta to a newly constructed list
+
+## Chaining assigment and comparison
+* x = y = 0 
+* 1 <= x + y <= 10 is determined as (1 <= x + y) and (x + y <= 10) but x + y is not computed twice
+
+## Conditionals for control flow
+* can evaluate nonboolean types as booleans e.g. if somestring: is similar to if somestring != ''
+
+## Break and continue statements 
+* continue --> skips this current iteration
+* break --> 
+
+## Functions
+* Functions are stateless, invoked without the context of a class or some instance
+* Methods are invoked with the context of a class

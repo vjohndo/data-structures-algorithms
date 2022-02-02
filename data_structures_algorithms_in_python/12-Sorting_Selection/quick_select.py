@@ -1,3 +1,5 @@
+import random
+
 def quick_select(S, k):
     """Return the kth smallest element of list S, for k from 1 to len(S)."""
     if len(S) == 1:
