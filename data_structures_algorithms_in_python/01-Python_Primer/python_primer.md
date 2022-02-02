@@ -52,3 +52,14 @@
 ## Functions
 * Functions are stateless, invoked without the context of a class or some instance
 * Methods are invoked with the context of a class
+
+# Activation records
+* When a function is called, Python creaste an activation record storing all information relevant to the current call
+* namespace of the activation record manages all identifiers that have local scope in the current call
+* local scope of function caller has not relationship to any identifier in the caller's scope
+
+# Information passing in functions
+* formal parameters --> identifiers for expected parameters 
+* actual parameters --> objects sent by caller when invoking the function
+* when passing in actual parameters, aliases are made with the formal paramaters for the respective actual parameters 
+
