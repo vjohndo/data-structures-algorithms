@@ -3,7 +3,7 @@
 ## Python is an interpreted language
 * Python is interpreted
 * Python is executed via a Python interpreter
-* Programmer writes commands in a *source code* or *script*
+* Programmer writes commands in a *source code* or *script* i.e. the .py files
 
 ## Objects in Python
 * An assignment statement is something like:
@@ -11,5 +11,21 @@
 
 * my_variable is the *identifier*
 * 120.5 is the object associated, in this case, a floating point 
+* an *alias* is another identifier for an object. Reassignment may break the alias
+* evaluating an expression like 98 + 8.0 instantiates a new float object
+* *instantiation* invokes the *constructor* of a class
+* temp = 98.6 creates an instance of the float class. This expression is known as a literal form.
+* a class may define *methods* or *memeber functions* which are invoked on a specific instance of a class using dot notation, e.g. data.sort()
+* *accessor* methods do not change the state
+* *mutators* or *update methods* can change the state
 
-## Identifier & Memory Address
+## Some inbuilt classes
+* list - stores sequence of references []
+* tuple - immutable list (). If a tuple of length 1, (1,) need to include a comma for python
+* str - immutable ' ', escape characters ' \' '
+* set - { }
+* dict - {key: value}
+
+## Logical operators
+* *and* and *or* short circuit
+
