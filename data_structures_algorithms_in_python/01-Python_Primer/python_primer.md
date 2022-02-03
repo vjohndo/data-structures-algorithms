@@ -83,3 +83,46 @@
 * can reraise errors by having a single *raise* in the except block
 * avoid using except on its own. Difficult to handle and unkown error type
 * finally will already run even for uncaught or re-raised exception errors
+
+# Iterators 
+* iterator --> object that manges iteration. uses a series of values. has built in function next(iterator_instance)
+* iterable --> an object that can produce an iterator. Does this by invoking iter(obj). 
+* iterators typically don't store the original collection, instead maintain an indirect reference e.g. the index
+* range generates values only one as a time as needed
+* can cast a list on to an iterator to get all the values out
+
+# Generators
+* Create iterators 
+* use of yield 
+
+# Conditional expressions
+* expr1 if condition else expr2
+* equivalent to the ternerary operator
+
+# Comprehension syntax
+* [ expression for value in iterable if condition ]
+* set, dictionary, generator compression exist
+* { k : k*k for k in range(1, n+1)}
+* useful to avoid storing something in memory
+
+# Packing and unpacking sequences
+* data = 2, 4, 6, 8 will be treated as a an assignment of a tuple
+* unpacking a, b, c, d = range(7, 11)
+
+# similtaneous assigments
+* i, j = k, i
+
+# Scopes and namespaces
+* global scope 
+* local scope 
+* each scope has its own namespace 
+* python searches through namespaces for each one in order of locality to ifnd the correct one
+
+# First-class objects
+* defining a function introduces an identifier in the namespace
+* same with classes 
+
+# Modules and importing
+* when importing a module top-level commands are executed when the module is first imported
+* to deal with this 
+* if __name__ == '__main__'
