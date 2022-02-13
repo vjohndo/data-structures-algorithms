@@ -37,10 +37,3 @@ class Vector:
     def __str__(self):
         """Produce string representation of a vector."""
         return '<' + str(self._coords)[1:-1] + '>' # adapt list representation. Note we slice the string [1:-1] to remove the '[' and ']'
-    
-    
-
-    
-
-    
-
