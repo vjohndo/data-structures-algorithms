@@ -17,8 +17,8 @@ class Range:
             start, stop = 0, start
 
         # Calculate the effective length once
-        # stop - start = len(n) - 1 
-        # (step - 1) // step = 
+        # stop - start // step. Could have case stop = 1, start = 0, step = 2, then stop - start // step = 0
+        # (step - 1) // step is always < 1. It is added to count for case when start - stop < step
         self._length = max(0, (stop - start + step - 1) // step)
 
         # need knowledge of start and step (but not stop) to support __getitem__
