@@ -93,6 +93,75 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
     
     return unsorted_list
 
+def sort_list(unsorted_list: List[int]) -> List[int]:
+    """Merge sort implementation. Algo monster"""
+    
+    n = len(unsorted_list)
+    if n <= 1: # base case, will only return on single, all other activation frames will have merge sort
+        return unsorted_list
+    
+    # Midpoint will be used to track poiners on left_list and right_list 
+    midpoint = n // 2
+    # split the list into two...
+    # left list upto (but not including) but not including midpoint
+    # right list from midpoint until the end
+    left_list, right_list = sort_list(unsorted_list[:midpoint]), sort_list(unsorted_list[midpoint:])
+    result_list = []
+    left_pointer, right_pointer = 0, 0
+    
+    # The left and right pointers are the for the left and right list
+    # the conditions are set up so that the while loop keeps running until all sublists have added to results
+    while left_pointer < midpoint or right_pointer < n - midpoint: # right pointer to go through all nodes not captured in midpoint
+        if left_pointer == midpoint: # all left pointer exhausted add in right
+            result_list.append(right_list[right_pointer])
+            right_pointer += 1
+        elif right_pointer == n - midpoint: # all right pointer exhausted add in left
+            result_list.append(left_list[left_pointer])
+            left_pointer += 1
+        elif left_list[left_pointer] <= right_list[right_pointer]: # notice how it is <= for stability. left will receive priority
+            result_list.append(left_list[left_pointer])
+            left_pointer += 1
+        else:
+            result_list.append(right_list[right_pointer])
+            right_pointer += 1
+        
+    return result_list
+
+def sort_list_interval(unsorted_list: List[int], start: int, end: int) -> List[int]:
+    """
+    Quick sort implementation.
+    
+    end    upto but not including. it will be the len(List). look at the helper function.
+    start  including
+    """
+    if end - start <= 1: # If the starting index and end index dif is <= 1. I.e. start and end pointers will be refer to the same element.
+        return # We are doing this inplace so need to actually return anything but need to exit the recursion.
+    
+    pivot = unsorted_list[end-1] 
+    start_ptr = start
+    end_ptr = end - 1
+    
+    while start_ptr < end_ptr:
+        while unsorted_list[start_ptr] < pivot and start_ptr < end_ptr: # notice how we use "<" to keep the sort stable
+            start_ptr += 1
+        while unsorted_list[end_ptr] >= pivot and start_ptr < end_ptr: # notice how >= to maintain stability
+            end_ptr -= 1
+        if start_ptr == end_ptr: # already created a left and right side 
+            break # do no progress the loop and no need to swap anymore.
+        unsorted_list[start_ptr], unsorted_list[end_ptr] = unsorted_list[end_ptr], unsorted_list[start_ptr]
+        
+    # swap the pivot
+    unsorted_list[start_ptr], unsorted_list[end - 1] = unsorted_list[end - 1], unsorted_list[start_ptr]
+    
+    # now sort the left and right intervals
+    sort_list_interval(unsorted_list, start, start_ptr)
+    sort_list_interval(unsorted_list, start_ptr + 1, end)
+    
+        
+def sort_list(unsorted_list: List[int]) -> List[int]:
+    sort_list_interval(unsorted_list, 0, len(unsorted_list))
+    return unsorted_list
+
 if __name__ == '__main__':
     # unsorted_list = [int(x) for x in input().split()]
     unsorted_list = [5, 3, 4, 2, 1]
