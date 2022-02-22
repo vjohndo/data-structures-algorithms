@@ -94,6 +94,40 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
     return unsorted_list
 
 def sort_list(unsorted_list: List[int]) -> List[int]:
+    """Bubble sort - my own implementation"""
+    
+    swapped = True
+  
+    while swapped:
+        swapped = False
+        i = 0
+        
+        while i < len(unsorted_list) - 1:
+            if unsorted_list[i] > unsorted_list[i + 1]:
+                unsorted_list[i], unsorted_list[i + 1] = unsorted_list[i + 1], unsorted_list[i]
+                swapped = True
+            i += 1
+    
+    return unsorted_list
+
+def sort_list(unsorted_list: List[int]) -> List[int]:
+    """Bubble sort - algo monster"""
+    # Want to iteration from 1 --> n, 1 --> n-1, 1 --> n-2 etc. 
+    # so use reverse range
+    n = len(unsorted_list)
+    for i in reversed(range(n)): 
+        swapped = False
+        for j in range(i):
+            if unsorted_list[j] > unsorted_list[j + 1]:
+                unsorted_list[j], unsorted_list[j + 1] = unsorted_list[j + 1], unsorted_list[j]
+                swapped = True
+        if not swapped:
+            return unsorted_list # early return if was can sort it before all iterations
+    
+    return unsorted_list # if it takes the final iteration to sort the list
+    
+
+def sort_list(unsorted_list: List[int]) -> List[int]:
     """Merge sort implementation. Algo monster"""
     
     n = len(unsorted_list)
