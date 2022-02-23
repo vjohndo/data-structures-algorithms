@@ -146,6 +146,7 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
     # The left and right pointers are the for the left and right list
     # the conditions are set up so that the while loop keeps running until all sublists have added to results
     while left_pointer < midpoint or right_pointer < n - midpoint: # right pointer to go through all nodes not captured in midpoint
+        # notice that by having the or in the while loop, we need to account for that in our control logic
         if left_pointer == midpoint: # all left pointer exhausted add in right
             result_list.append(right_list[right_pointer])
             right_pointer += 1
@@ -168,6 +169,9 @@ def sort_list_interval(unsorted_list: List[int], start: int, end: int) -> List[i
     end    upto but not including. it will be the len(List). look at the helper function.
     start  including
     """
+
+    # If there's 1 item or less return 1
+    # right inclusivity --> a[i:i] ==> len(a) = 0
     if end - start <= 1: # If the starting index and end index dif is <= 1. I.e. start and end pointers will be refer to the same element.
         return # We are doing this inplace so need to actually return anything but need to exit the recursion.
     
@@ -176,12 +180,14 @@ def sort_list_interval(unsorted_list: List[int], start: int, end: int) -> List[i
     end_ptr = end - 1
     
     while start_ptr < end_ptr:
-        while unsorted_list[start_ptr] < pivot and start_ptr < end_ptr: # notice how we use "<" to keep the sort stable
+        while unsorted_list[start_ptr] < pivot and start_ptr < end_ptr: # notice how we use "<" to keep the sort stable? If we land on a value equal it doesn't count.
             start_ptr += 1
-        while unsorted_list[end_ptr] >= pivot and start_ptr < end_ptr: # notice how >= to maintain stability
+        while unsorted_list[end_ptr] >= pivot and start_ptr < end_ptr: # notice how >= to maintain stability. If we land on a value = to pivot. we will leave the right marker here to swap. As the left marker progresses, the pivot will definitely be infront
             end_ptr -= 1
         if start_ptr == end_ptr: # already created a left and right side 
             break # do no progress the loop and no need to swap anymore.
+
+        # we swap with the start first because it will always move first (look at the order of the while loop)
         unsorted_list[start_ptr], unsorted_list[end_ptr] = unsorted_list[end_ptr], unsorted_list[start_ptr]
         
     # swap the pivot
