@@ -70,6 +70,8 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
     
     for i in range(n): # 0, 1, 2, ..., n-1
        
+        # Typically unstable
+        # What I'm effecitvely doing here is a reverse bubble sort
         for j in range(n-1, i, -1): # for n-1, n-2, ..., i+1 i.e. in the unsorted partition
             if unsorted_list[j] < unsorted_list[j-1]:
                 unsorted_list[j], unsorted_list[j-1] = unsorted_list[j-1], unsorted_list[j]
@@ -79,6 +81,7 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
 def sort_list(unsorted_list: List[int]) -> List[int]:
     """Selection sort - AlgoMonster implementation. Not stable. In-place"""
     
+    # Note that we need to use range as we want the indexes to stay constant between the loops
     n = len(unsorted_list)
     
     for i in range(n):
@@ -111,13 +114,31 @@ def sort_list(unsorted_list: List[int]) -> List[int]:
     return unsorted_list
 
 def sort_list(unsorted_list: List[int]) -> List[int]:
+    """My own implementation"""
+    n = len(unsorted_list)
+    is_sorted = False
+    
+    while not is_sorted:
+        is_sorted = True
+        current = 0
+        
+        # Watch out for +- 1 errors
+        while current < n-1:
+            if unsorted_list[current] > unsorted_list[current+1]:
+                is_sorted = False
+                unsorted_list[current], unsorted_list[current+1] = unsorted_list[current+1], unsorted_list[current]
+            current += 1
+            
+    return unsorted_list
+
+def sort_list(unsorted_list: List[int]) -> List[int]:
     """Bubble sort - algo monster"""
     # Want to iteration from 1 --> n, 1 --> n-1, 1 --> n-2 etc. 
     # so use reverse range
     n = len(unsorted_list)
     for i in reversed(range(n)): 
         swapped = False
-        for j in range(i):
+        for j in range(i): # We only go up to, but not include j as we can check the +1 with if statements
             if unsorted_list[j] > unsorted_list[j + 1]:
                 unsorted_list[j], unsorted_list[j + 1] = unsorted_list[j + 1], unsorted_list[j]
                 swapped = True
