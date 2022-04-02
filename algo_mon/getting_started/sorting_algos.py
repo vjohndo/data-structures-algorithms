@@ -205,18 +205,19 @@ def sort_list_interval(unsorted_list: List[int], start: int, end: int) -> List[i
             start_ptr += 1
         while unsorted_list[end_ptr] >= pivot and start_ptr < end_ptr: # notice how >= to maintain stability. If we land on a value = to pivot. we will leave the right marker here to swap. As the left marker progresses, the pivot will definitely be infront
             end_ptr -= 1
+        # Need to escape the while loop in the event start_ptr == end_ptr
         if start_ptr == end_ptr: # already created a left and right side 
             break # do no progress the loop and no need to swap anymore.
 
         # we swap with the start first because it will always move first (look at the order of the while loop)
         unsorted_list[start_ptr], unsorted_list[end_ptr] = unsorted_list[end_ptr], unsorted_list[start_ptr]
         
-    # swap the pivot
+    # swap the pivot after the first run to organise the list is done
     unsorted_list[start_ptr], unsorted_list[end - 1] = unsorted_list[end - 1], unsorted_list[start_ptr]
     
     # now sort the left and right intervals
     sort_list_interval(unsorted_list, start, start_ptr)
-    sort_list_interval(unsorted_list, start_ptr + 1, end)
+    sort_list_interval(unsorted_list, start_ptr + 1, end) # notice that the right interval does not include the pviot
     
         
 def sort_list(unsorted_list: List[int]) -> List[int]:
