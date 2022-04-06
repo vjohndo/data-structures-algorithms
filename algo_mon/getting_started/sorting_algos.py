@@ -203,6 +203,7 @@ def sort_list_interval(unsorted_list: List[int], start: int, end: int) -> List[i
     while start_ptr < end_ptr:
         while unsorted_list[start_ptr] < pivot and start_ptr < end_ptr: # notice how we use "<" to keep the sort stable? If we land on a value equal it doesn't count.
             start_ptr += 1
+        # needs to be equals to avoid swapping the pivot
         while unsorted_list[end_ptr] >= pivot and start_ptr < end_ptr: # notice how >= to maintain stability. If we land on a value = to pivot. we will leave the right marker here to swap. As the left marker progresses, the pivot will definitely be infront
             end_ptr -= 1
         # Need to escape the while loop in the event start_ptr == end_ptr
