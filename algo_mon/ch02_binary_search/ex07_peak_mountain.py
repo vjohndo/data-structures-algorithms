@@ -8,6 +8,8 @@ def peak_of_mountain_array(arr: List[int]) -> int:
         mid = (left + right) // 2
         if arr[mid] > arr[mid + 1]:
             boundary_index = mid
+            # We know the solution must at least lie to our left,
+            # So we bring the right back
             right = mid - 1
         else:
             left = mid + 1
