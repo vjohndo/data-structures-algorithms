@@ -2,7 +2,9 @@ from typing import List
 
 def binary_search(arr: List[int], target: int) -> int:
     left, right = 0, len(arr) - 1
+    # We can handle all the equality checks within the while loop. Don't need to handle it here
     while left <= right:  # <= because left and right could point to the same element, < would miss it
+        # can establich the midpoint on every iteration of the while loop
         mid = (left + right) // 2 # double slash for integer division in python 3, we don't have to worry about integer `left + right` overflow since python integers can be arbitrarily large
         # found target, return its index
         if arr[mid] == target:
