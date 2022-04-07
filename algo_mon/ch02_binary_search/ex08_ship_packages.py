@@ -20,7 +20,7 @@ def min_max_weight(weights: List[int], d: int) -> bool:
     # Know that the min size will be the max size of package
     min_ptr = max(weights)
     max_ptr = sum(weights)
-    boundary_index = max_ptr
+    boundary_index = max_ptr # Set the min size to be the largest
     while min_ptr <= max_ptr:
         midpoint = (min_ptr + max_ptr) // 2
         if feasible(weights, midpoint, d):
