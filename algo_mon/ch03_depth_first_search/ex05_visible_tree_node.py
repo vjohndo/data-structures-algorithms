@@ -19,3 +19,25 @@ if __name__ == '__main__':
     root = build_tree(iter(input().split()), int)
     res = visible_tree_node(root)
     print(res)
+
+### 
+
+def visible_tree_node(root: Node) -> int:
+    def dfs(root, max_seen):
+        
+        if root is None:
+            return 0
+        
+        # Keep track of the total and we'll add to it on our recursive calls
+        total = 0
+        if root.val >= max_seen:
+            total += 1
+            max_seen = root.val
+            
+        # Rather than define a variable, calculate max in function
+        total += dfs(root.left, max_seen)
+        total += dfs(root.right, max_seen)
+        
+        return total
+                     
+    return dfs(root, -float('inf'))
