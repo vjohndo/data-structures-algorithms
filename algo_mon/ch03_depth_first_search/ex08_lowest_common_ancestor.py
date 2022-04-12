@@ -5,29 +5,47 @@ class Node:
         self.right = right
 
 def lca(root, node1, node2):
+    # How to breakdown the problem #
+    # What is the simpliest case:
+    # # A node is a descendant of itself
+    # # What is the deepest node with v & w as descendants
+    # # We want to pass the state of LCA up until we 
+    
+    
+    # If root is none, we couldn't find LCA in the tree
     if not root:
-        return
-
-    # case 2 in above figure
+        return None
+    
+    # If a node is itself an ancestor, it must be the lowest common ancestor
+    # - other node will be below it
     if root == node1 or root == node2:
         return root
-
+    
+    # Done with pre-order check, need information from the bottom up now
+    # Will need to do recurssion on left and right subtree
     left = lca(root.left, node1, node2)
     right = lca(root.right, node1, node2)
-
-    # case 1
+    
+    # If we've found LCA in both left and right subtree,
+    # LCA can't be in both, the root must be true
     if left and right:
         return root
-
-    # at this point, left and right can't be both non-null since we checked above
-    # case 4 and 5, report target node or LCA back to parent
+    
+    # If only left, LCA found in left subtree
+    # pass up the LCA state on left
     if left:
         return left
+    
+    # If only right, LCA found in right subtree
+    # pass up the LCA state on right
     if right:
         return right
-
-    # case 4, not found return null
+    
+    # If we can't find it return null
     return None
+    
+    
+    
 
 if __name__ == "__main__":
     # driver code, do not modify
