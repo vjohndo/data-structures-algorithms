@@ -8,3 +8,22 @@ def nexterise(s_iter):
 
 for i in range(3):
     print(nexterise(s_iter))
+
+
+#
+
+def test():
+    val = 0
+
+    def recur():
+        nonlocal val
+        if val > 10:
+            return
+        else: 
+            val += 1
+            print(val)
+            recur()
+    
+    recur()
+
+test()
