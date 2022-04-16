@@ -20,7 +20,9 @@ def flatten_tree(tree: Node) -> Node:
         
         tail_node.right = Node(top.val)
         tail_node = tail_node.right
-        tree_stack.append(top.right) # Notice how right goes in first as we wanna pop and work on left first 
+        # Notice how right goes in first as we wanna pop and work on left first
+        # This means that as we go down the tree, we're going to pop left, add right & left, pop left, add right & left etc.
+        tree_stack.append(top.right) 
         tree_stack.append(top.left)
         
     return head_node
