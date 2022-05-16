@@ -29,6 +29,7 @@ class TestEmployee(unittest.TestCase):
 
     def setUp(self):
         """Code to run before every single test"""
+        # Notice the self
         self.emp_1 = Employee('Corey', 'Schafer', 50000)
         self.emp_2 = Employee('Sue', 'Smith', 60000)
         # will want to add self. infront of every call
@@ -39,9 +40,13 @@ class TestEmployee(unittest.TestCase):
         pass
 
     def test_email(self):
+        # create two employees... but there's a better way to do this
+        # Can avoid this using setup
         # emp_1 = Employee('Corey', 'Schafer', 50000) --> can remove
         # emp_2 = Employee('Sue', 'Smith', 60000) --> can remove
 
+        # Check emails are matching
+        # Notice how all the tests have self. We're using the set up 
         self.assertEqual(self.emp_1.email, 'Corey.Schafer@email.com')
         self.assertEqual(self.emp_2.email, 'Sue.Smith@email.com')
 
@@ -75,8 +80,25 @@ class TestEmployee(unittest.TestCase):
         self.assertEqual(self.emp_2.pay, 63000)
 
     def test_monthly_schedule(self):
-        with patch('employee/requests.get') as mocked_get:
-            pass
+        # Mock the employee/requests.get 
+        with patch('employee.requests.get') as mocked_get:
+            # Instead of going to website by 
+            mocked_get.return_value.ok = True
+            mocked_get.return_value.text = "Success"
+            schedule = self.emp_1.monthly_schedule("May")
+
+            # check correct url
+            mocked_get.assert_called_with('http://company.com/Schafer/May')
+            self.assertEqual(schedule, "Success")
+
+            ## Checking a bad repsonse
+            mocked_get.return_value.ok = False
+            mocked_get.return_value.text = "Success"
+            schedule = self.emp_2.monthly_schedule("June")
+
+            # check correct url
+            mocked_get.assert_called_with('http://company.com/Smith/June')
+            self.assertEqual(schedule, "Bad Response!")
 
 
 if __name__ == '__main__':
